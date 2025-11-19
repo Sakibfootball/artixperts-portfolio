@@ -31,19 +31,19 @@ export default async function HeroSection() {
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light tracking-wide drop-shadow-md">
             We transform{" "}
-            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
+            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-purple-600">
               ideas{" "}
             </span>
             into{" "}
-            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-600">
+            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-teal-600">
               digital experiences
             </span>{" "}
             that{" "}
-            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-600">
+            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-indigo-600">
               inspire{" "}
             </span>{" "}
             and{" "}
-            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">
+            <span className="font-medium animate-pulse text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-purple-600">
               engage
             </span>
             .
