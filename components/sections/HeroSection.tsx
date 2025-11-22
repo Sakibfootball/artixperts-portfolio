@@ -1,7 +1,7 @@
 // app/components/HeroSection.tsx
 import { ChevronDown, Eye, Send } from "lucide-react";
 
-export default async function HeroSection() {
+export async function HeroSection() {
   //   const data = await getHeroData();
 
   return (
