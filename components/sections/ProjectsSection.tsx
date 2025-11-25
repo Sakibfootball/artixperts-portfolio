@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { defineQuery } from "next-sanity";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 
-const PROJECTS_QUERY =
-  defineQuery(`*[_type == "project" && featured == true] | order(order asc)[0...6]{
+const PROJECTS_QUERY = defineQuery(`*[_type == "project" && featured == true] | order(order asc)[0...6]{
   title,
   slug,
   tagline,
@@ -19,114 +19,96 @@ const PROJECTS_QUERY =
 export async function ProjectsSection() {
   const { data: projects } = await sanityFetch({ query: PROJECTS_QUERY });
 
-  if (!projects || projects.length === 0) {
-    return null;
-  }
+  // Fallback projects for when Sanity data is not available
+  const fallbackProjects = [
+    {
+      title: "E-commerce Platform",
+      tagline: "Full-stack development with React & Node.js",
+      coverImage: null,
+      slug: { current: "ecommerce-platform" },
+    },
+    {
+      title: "Startup Business Portal",
+      tagline: "Custom SaaS platform for entrepreneurs",
+      coverImage: null,
+      slug: { current: "startup-portal" },
+    },
+    {
+      title: "Creative Agency Branding",
+      tagline: "Complete visual identity and website",
+      coverImage: null,
+      slug: { current: "agency-branding" },
+    },
+    {
+      title: "Mobile App UX Design",
+      tagline: "User experience overhaul for fintech app",
+      coverImage: null,
+      slug: { current: "mobile-ux" },
+    },
+    {
+      title: "Corporate Dashboard",
+      tagline: "Data visualization and analytics interface",
+      coverImage: null,
+      slug: { current: "corporate-dashboard" },
+    },
+    {
+      title: "E-commerce Redesign",
+      tagline: "Conversion-focused UI/UX improvements",
+      coverImage: null,
+      slug: { current: "ecommerce-redesign" },
+    },
+  ];
+
+  const displayProjects = projects && projects.length > 0 ? projects : fallbackProjects;
 
   return (
-    <section id="projects" className="py-20 px-6 bg-muted/30">
-      <div className="container mx-auto max-w-6xl">
+    <section id="projects" className="py-20 bg-white">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-3 font-space">
             Featured Projects
           </h2>
-          <p className="text-xl text-muted-foreground">Some of my best work</p>
+          <div className="w-20 h-1 bg-gray-300 mx-auto"></div>
         </div>
 
-        <div className="@container">
-          <div className="grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-3 gap-8">
-            {projects.map((project: any) => (
-              <div
-                key={project.slug?.current}
-                className="@container/card group bg-card border rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-              >
-                {/* Project Image */}
-                {project.coverImage && (
-                  <div className="relative aspect-video overflow-hidden bg-muted">
-                    <Image
-                      src={urlFor(project.coverImage)
-                        .width(600)
-                        .height(400)
-                        .url()}
-                      alt={project.title || "Project image"}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    {/* Glass overlay that fades on hover */}
-                    <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] group-hover:opacity-0 transition-opacity duration-300" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayProjects.map((project: any) => (
+            <Link
+              key={project.slug?.current || project.title}
+              href={project.liveUrl || "#"}
+              className="group relative overflow-hidden rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300"
+            >
+              {/* Project Image */}
+              <div className="relative w-full h-64 bg-gray-100 overflow-hidden">
+                {project.coverImage ? (
+                  <Image
+                    src={urlFor(project.coverImage).width(640).height(360).url()}
+                    alt={project.coverImage.alt || project.title || "Project image"}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-purple-100 via-gray-100 to-teal-100 flex items-center justify-center">
+                    <span className="text-gray-400 text-sm">Project Image</span>
                   </div>
                 )}
-
-                {/* Project Content */}
-                <div className="p-4 @md/card:p-6 space-y-3 @md/card:space-y-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      {project.category && (
-                        <span className="text-xs px-2 py-0.5 @md/card:py-1 rounded-full bg-primary/10 text-primary">
-                          {project.category}
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-lg @md/card:text-xl font-semibold mb-2 line-clamp-2">
-                      {project.title || "Untitled Project"}
-                    </h3>
-                    <p className="text-muted-foreground text-xs @md/card:text-sm line-clamp-2">
-                      {project.tagline}
-                    </p>
-                  </div>
-
-                  {/* Tech Stack */}
-                  {project.technologies && project.technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 @md/card:gap-2">
-                      {project.technologies.slice(0, 4).map((tech: any, idx: number) => {
-                        const techData =
-                          tech && typeof tech === "object" && "name" in tech
-                            ? tech
-                            : null;
-                        return techData?.name ? (
-                          <span
-                            key={`${project.slug?.current}-tech-${idx}`}
-                            className="text-xs px-2 py-0.5 @md/card:py-1 rounded-md bg-muted"
-                          >
-                            {techData.name}
-                          </span>
-                        ) : null;
-                      })}
-                      {project.technologies.length > 4 && (
-                        <span className="text-xs px-2 py-0.5 @md/card:py-1 rounded-md bg-muted">
-                          +{project.technologies.length - 4}
-                        </span>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Actions */}
-                  <div className="flex flex-col @xs/card:flex-row gap-2 @xs/card:gap-3 pt-2">
-                    {project.liveUrl && (
-                      <Link
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center px-3 py-2 @md/card:px-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs @md/card:text-sm"
-                      >
-                        Live Demo
-                      </Link>
-                    )}
-                    {project.githubUrl && (
-                      <Link
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-2 @md/card:px-4 rounded-lg border hover:bg-accent transition-colors text-xs @md/card:text-sm text-center"
-                      >
-                        GitHub
-                      </Link>
-                    )}
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
+
+              {/* Project Content */}
+              <div className="p-6 bg-white">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  {project.title || "Untitled Project"}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {project.tagline || "Project description"}
+                </p>
+                <span className="inline-flex items-center text-purple-600 font-medium">
+                  View Case Study{" "}
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

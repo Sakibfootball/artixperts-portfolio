@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Send } from "lucide-react";
 import { submitContactForm } from "@/app/actions/submit-contact-form";
 
 export function ContactForm() {
@@ -38,91 +39,61 @@ export function ContactForm() {
   };
 
   return (
-    <div className="@container/form bg-card border rounded-lg p-4 @md/form:p-6">
-      <h3 className="text-xl @md/form:text-2xl font-semibold mb-6">
-        Send a Message
-      </h3>
+    <>
+      <h3 className="text-2xl font-bold text-gray-800 mb-6 font-space">Send a Message</h3>
 
       {status.type && (
         <div
-          className={`mb-4 p-3 rounded-lg text-sm ${
-            status.type === "success"
-              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-          }`}
+          className={`mb-6 p-4 rounded-lg text-sm ${status.type === "success"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+            }`}
         >
           {status.message}
         </div>
       )}
 
-      <form className="space-y-3 @md/form:space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
-          <label
-            htmlFor="name"
-            className="block text-xs @md/form:text-sm font-medium mb-2"
-          >
-            Name
+          <label htmlFor="name" className="block text-gray-700 mb-2">
+            Your Name
           </label>
           <input
             type="text"
             id="name"
             name="name"
-            className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm @md/form:text-base"
-            placeholder="Your name"
+            placeholder="John Doe"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300"
             required
             disabled={isPending}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="email"
-            className="block text-xs @md/form:text-sm font-medium mb-2"
-          >
-            Email
+          <label htmlFor="email" className="block text-gray-700 mb-2">
+            Email Address
           </label>
           <input
             type="email"
             id="email"
             name="email"
-            className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm @md/form:text-base"
-            placeholder="your.email@example.com"
+            placeholder="john@example.com"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300"
             required
             disabled={isPending}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="subject"
-            className="block text-xs @md/form:text-sm font-medium mb-2"
-          >
-            Subject
-          </label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm @md/form:text-base"
-            placeholder="What's this about?"
-            required
-            disabled={isPending}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="message"
-            className="block text-xs @md/form:text-sm font-medium mb-2"
-          >
-            Message
+          <label htmlFor="message" className="block text-gray-700 mb-2">
+            Project Details
           </label>
           <textarea
             id="message"
             name="message"
             rows={5}
-            className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none text-sm @md/form:text-base"
-            placeholder="Tell me about your project..."
+            placeholder="Tell us about your project..."
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 resize-none"
             required
             disabled={isPending}
           />
@@ -131,11 +102,12 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full px-4 py-2 @md/form:px-6 @md/form:py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium text-sm @md/form:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-gradient-to-r from-purple-600 to-teal-600 text-white py-4 px-6 rounded-lg font-bold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
+          <Send className="w-5 h-5" />
           {isPending ? "Sending..." : "Send Message"}
         </button>
       </form>
-    </div>
+    </>
   );
 }

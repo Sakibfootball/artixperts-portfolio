@@ -2,6 +2,7 @@ import { defineQuery } from "next-sanity";
 
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
+import { TestimonialsCarousel } from "./TestimonialsCarousel";
 
 const TESTIMONIALS_QUERY =
   defineQuery(`*[_type == "testimonial" && featured == true] | order(order asc){
@@ -38,26 +39,22 @@ export async function TestimonialsSection() {
   }));
 
   return (
-    <section id="testimonials" className="py-20 px-6">
+    <section id="testimonials" className="py-20 px-6 relative overflow-hidden">
+      {/* Background gradient accents */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-10" />
+
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-gray-800 mb-3 font-space">
             Client Testimonials
           </h2>
           <p className="text-xl text-muted-foreground">
-            What people say about working with me
+            What people say about working with us
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {formattedTestimonials.map((t: any, idx: number) => (
-            <div key={idx} className="bg-card border rounded-lg p-6 shadow-sm">
-              <p className="text-muted-foreground mb-4">"{t.quote}"</p>
-              <div className="font-semibold">{t.name}</div>
-              <div className="text-sm text-muted-foreground">{t.designation}</div>
-            </div>
-          ))}
-        </div>
+        <TestimonialsCarousel testimonials={formattedTestimonials} />
       </div>
     </section>
   );
