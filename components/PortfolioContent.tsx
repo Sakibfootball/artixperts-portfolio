@@ -1,4 +1,6 @@
 import { Footer } from "./layout/Footer";
+import { FloatingNavbar } from "./layout/FloatingNavbar";
+import { TopNavbar } from "./layout/TopNavbar";
 import { AboutSection } from "./sections/AboutSection";
 import { HeroSection } from "./sections/HeroSection";
 import { SkillsSection } from "./sections/SkillsSection";
@@ -10,6 +12,8 @@ import { ContactSection } from "./sections/ContactSection";
 function PortfolioContent() {
   return (
     <>
+      <TopNavbar />
+      <FloatingNavbar />
       <HeroSection />
       <AboutSection />
       <SkillsSection />

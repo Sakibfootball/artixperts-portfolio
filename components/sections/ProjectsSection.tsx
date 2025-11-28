@@ -13,7 +13,8 @@ const PROJECTS_QUERY = defineQuery(`*[_type == "project" && featured == true] | 
   liveUrl,
   githubUrl,
   coverImage,
-  technologies[]->{name, category, color}
+  technologies[]->{name, category, color},
+  caseStudy->{slug}
 }`);
 
 export async function ProjectsSection() {
@@ -73,13 +74,12 @@ export async function ProjectsSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayProjects.map((project: any) => (
-            <Link
+            <div
               key={project.slug?.current || project.title}
-              href={project.liveUrl || "#"}
-              className="group relative overflow-hidden rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300"
+              className="group relative overflow-hidden rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col"
             >
               {/* Project Image */}
-              <div className="relative w-full h-64 bg-gray-100 overflow-hidden">
+              <Link href={project.liveUrl || "#"} className="relative w-full h-64 bg-gray-100 overflow-hidden block">
                 {project.coverImage ? (
                   <Image
                     src={urlFor(project.coverImage).width(640).height(360).url()}
@@ -92,22 +92,34 @@ export async function ProjectsSection() {
                     <span className="text-gray-400 text-sm">Project Image</span>
                   </div>
                 )}
-              </div>
+              </Link>
 
               {/* Project Content */}
-              <div className="p-6 bg-white">
+              <div className="p-6 bg-white flex flex-col flex-grow">
                 <h3 className="text-xl font-bold text-gray-800 mb-2">
                   {project.title || "Untitled Project"}
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600 mb-4 flex-grow">
                   {project.tagline || "Project description"}
                 </p>
-                <span className="inline-flex items-center text-purple-600 font-medium">
-                  View Case Study{" "}
-                  <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
+
+                <div className="mt-auto">
+                  {project.caseStudy?.slug?.current ? (
+                    <Link
+                      href={`/case-study/${project.caseStudy.slug.current}`}
+                      className="inline-flex items-center text-purple-600 font-medium hover:text-purple-700 transition-colors"
+                    >
+                      View Case Study{" "}
+                      <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
+                  ) : (
+                    <span className="inline-flex items-center text-gray-400 font-medium cursor-not-allowed">
+                      Case Study Coming Soon
+                    </span>
+                  )}
+                </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

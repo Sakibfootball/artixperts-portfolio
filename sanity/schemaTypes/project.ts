@@ -101,6 +101,13 @@ export default defineType({
       initialValue: 0,
       validation: (Rule) => Rule.min(0).max(99),
     }),
+    defineField({
+      name: "caseStudy",
+      title: "Case Study",
+      type: "reference",
+      to: [{ type: "caseStudy" }],
+      description: "Link a detailed case study to this project",
+    }),
   ],
   preview: {
     select: {

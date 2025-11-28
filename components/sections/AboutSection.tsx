@@ -7,21 +7,31 @@ import {
   Smartphone,
   ArrowRight,
 } from "lucide-react";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
-export function AboutSection() {
+export async function AboutSection() {
+  const profile = await client.fetch(`*[_type == "profile"][0]{ profileImage }`);
+
   return (
     <section id="about" className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="lg:w-1/2">
+          <div className="w-full lg:w-1/2">
             <div className="relative">
               <div className="w-full h-96 bg-linear-to-r from-purple-100 to-teal-100 rounded-2xl overflow-hidden relative">
-                <Image
-                  src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-                  alt="About me"
-                  fill
-                  className="object-cover"
-                />
+                {profile?.profileImage ? (
+                  <Image
+                    src={urlFor(profile.profileImage).url()}
+                    alt="About me"
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    No Image
+                  </div>
+                )}
               </div>
               <div className="absolute -bottom-6 -right-6 bg-linear-to-r from-purple-500 to-teal-500 p-1 rounded-lg">
                 <div className="bg-white p-3 rounded-md shadow-lg">
@@ -30,7 +40,7 @@ export function AboutSection() {
               </div>
             </div>
           </div>
-          <div className="lg:w-1/2">
+          <div className="w-full lg:w-1/2">
             <h2 className="text-3xl font-bold text-gray-800 mb-6 font-space">
               About Us
             </h2>
