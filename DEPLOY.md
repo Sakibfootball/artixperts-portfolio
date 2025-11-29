@@ -44,3 +44,22 @@ If you prefer to configure it manually:
 
 -   **Build Failures**: Check the logs. Common issues include missing environment variables or type errors during build.
 -   **Sanity Issues**: Ensure your Sanity dataset is public or that you have configured a token if it's private (though for public read, just the ID and Dataset are usually enough for the frontend).
+
+## Sanity Configuration (Important)
+
+Your Sanity Studio is embedded in your Next.js application at the `/studio` route. When you deploy your app, the Studio is deployed with it.
+
+**However, you must authorize your deployed application to communicate with Sanity.**
+
+1.  Go to [sanity.io/manage](https://www.sanity.io/manage).
+2.  Select your project.
+3.  Go to the **API** tab.
+4.  Scroll down to **CORS Origins**.
+5.  Click **Add CORS Origin**.
+6.  Enter your Render deployment URL (e.g., `https://artiexperts-portfolio.onrender.com`).
+    -   *Tip: You can find this URL in your Render dashboard after the service is created.*
+7.  Check **Allow credentials**.
+8.  Click **Save**.
+
+If you skip this step, the Studio at `/studio` will not load and you may see CORS errors in the console.
+
