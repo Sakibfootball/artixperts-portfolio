@@ -10,6 +10,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { codeInput } from "@sanity/code-input";
 import { table } from "@sanity/table";
+import { presentationTool } from "sanity/presentation";
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schemaTypes";
@@ -32,5 +33,14 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion, title: "GROQ" }),
     codeInput(),
     table(),
+    presentationTool({
+      previewUrl: {
+        initial: process.env.SANITY_STUDIO_PREVIEW_URL,
+        preview: "/",
+        previewMode: {
+          enable: "/api/draft-mode/enable",
+        },
+      },
+    }),
   ],
 });

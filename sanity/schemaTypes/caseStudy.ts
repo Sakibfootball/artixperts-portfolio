@@ -39,6 +39,44 @@ export default defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
+            name: "overview",
+            title: "Project Overview",
+            type: "text",
+            rows: 3,
+            description: "A brief summary of the project.",
+        }),
+        defineField({
+            name: "role",
+            title: "My Role",
+            type: "string",
+            description: "e.g., Lead Designer, Full Stack Developer",
+        }),
+        defineField({
+            name: "timeline",
+            title: "Timeline",
+            type: "string",
+            description: "e.g., 3 months, Jan 2024 - Mar 2024",
+        }),
+        defineField({
+            name: "techStack",
+            title: "Tech Stack",
+            type: "array",
+            of: [{ type: "string" }],
+            options: {
+                layout: "tags",
+            },
+        }),
+        defineField({
+            name: "demoUrl",
+            title: "Live Demo URL",
+            type: "url",
+        }),
+        defineField({
+            name: "githubUrl",
+            title: "GitHub URL",
+            type: "url",
+        }),
+        defineField({
             name: "content",
             title: "Content",
             type: "array",
