@@ -6,14 +6,8 @@ export default defineType({
   type: "document",
   fields: [
     defineField({
-      name: "firstName",
-      title: "First Name",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "lastName",
-      title: "Last Name",
+      name: "agencyName",
+      title: "Agency Name",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -165,7 +159,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "firstName",
+      title: "agencyName",
       subtitle: "headline",
       media: "profileImage",
     },

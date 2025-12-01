@@ -7,11 +7,17 @@ import {
   Smartphone,
   ArrowRight,
 } from "lucide-react";
-import { client } from "@/sanity/lib/client";
+import { defineQuery } from "next-sanity";
+import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 
+const ABOUT_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
+  profileImage,
+  shortBio
+}`);
+
 export async function AboutSection() {
-  const profile = await client.fetch(`*[_type == "profile"][0]{ profileImage }`);
+  const { data: profile } = await sanityFetch({ query: ABOUT_QUERY });
 
   return (
     <section id="about" className="py-20 bg-white">
@@ -45,10 +51,8 @@ export async function AboutSection() {
               About Us
             </h2>
             <p className="text-gray-600 mb-6">
-              We’re a team of creators, strategists, and problem solvers helping
-              businesses look sharper, sound clearer, and grow faster. From
-              stunning visuals to smart marketing, we bring together design,
-              storytelling, and strategy to move your brand forward.
+              {profile?.shortBio ||
+                "We’re a team of creators, strategists, and problem solvers helping businesses look sharper, sound clearer, and grow faster. From stunning visuals to smart marketing, we bring together design, storytelling, and strategy to move your brand forward."}
             </p>
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="flex items-center gap-3">

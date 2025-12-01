@@ -230,6 +230,42 @@ export type Blog = {
   tags?: Array<string>;
   publishedAt?: string;
   readTime?: number;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      value?: "#ef4444" | "#3b82f6" | "#22c55e" | "#a855f7" | "#f97316" | "#14b8a6" | "#eab308" | "#ec4899" | "#6366f1" | "#6b7280";
+      _type: "textColor";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code | {
+    _key: string;
+  } & Table>;
 };
 
 export type Achievement = {
@@ -473,6 +509,77 @@ export type Project = {
   githubUrl?: string;
   featured?: boolean;
   order?: number;
+  caseStudy?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "caseStudy";
+  };
+};
+
+export type CaseStudy = {
+  _id: string;
+  _type: "caseStudy";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  heroImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  overview?: string;
+  role?: string;
+  timeline?: string;
+  techStack?: Array<string>;
+  demoUrl?: string;
+  githubUrl?: string;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      value?: "#ef4444" | "#3b82f6" | "#22c55e" | "#a855f7" | "#f97316" | "#14b8a6" | "#eab308" | "#ec4899" | "#6366f1" | "#6b7280";
+      _type: "textColor";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code | {
+    _key: string;
+  } & Table>;
 };
 
 export type Profile = {
@@ -481,8 +588,7 @@ export type Profile = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  firstName?: string;
-  lastName?: string;
+  agencyName?: string;
   headline?: string;
   headlineStaticText?: string;
   headlineAnimatedWords?: Array<string>;
@@ -539,6 +645,26 @@ export type Profile = {
     value?: string;
     _key: string;
   }>;
+};
+
+export type Table = {
+  _type: "table";
+  rows?: Array<{
+    _key: string;
+  } & TableRow>;
+};
+
+export type TableRow = {
+  _type: "tableRow";
+  cells?: Array<string>;
+};
+
+export type Code = {
+  _type: "code";
+  language?: string;
+  filename?: string;
+  code?: string;
+  highlightedLines?: Array<number>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -637,89 +763,15 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = Navigation | SiteSettings | SanityImageCrop | SanityImageHotspot | Contact | Service | Slug | Blog | Achievement | Certification | Testimonial | Education | Experience | Skill | Project | Profile | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = Navigation | SiteSettings | SanityImageCrop | SanityImageHotspot | Contact | Service | Slug | Blog | Achievement | Certification | Testimonial | Education | Experience | Skill | Project | CaseStudy | Profile | Table | TableRow | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./components/sections/AboutSection.tsx
-// Variable: ABOUT_QUERY
-// Query: *[_id == "singleton-profile"][0]{  firstName,  lastName,  fullBio,  yearsOfExperience,  stats,  email,  phone,  location}
-export type ABOUT_QUERYResult = {
-  firstName: null;
-  lastName: null;
-  fullBio: null;
-  yearsOfExperience: null;
-  stats: null;
-  email: null;
-  phone: null;
-  location: null;
-} | {
-  firstName: null;
-  lastName: null;
-  fullBio: null;
-  yearsOfExperience: number | null;
-  stats: null;
-  email: null;
-  phone: null;
-  location: null;
-} | {
-  firstName: null;
-  lastName: null;
-  fullBio: null;
-  yearsOfExperience: null;
-  stats: null;
-  email: null;
-  phone: null;
-  location: string | null;
-} | {
-  firstName: null;
-  lastName: null;
-  fullBio: null;
-  yearsOfExperience: null;
-  stats: null;
-  email: string | null;
-  phone: null;
-  location: null;
-} | {
-  firstName: string | null;
-  lastName: string | null;
-  fullBio: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
-  yearsOfExperience: number | null;
-  stats: Array<{
-    label?: string;
-    value?: string;
-    _key: string;
-  }> | null;
-  email: string | null;
-  phone: string | null;
-  location: string | null;
-} | null;
-
-// Source: ./components/sections/AchievementsSection.tsx
-// Variable: ACHIEVEMENTS_QUERY
-// Query: *[_type == "achievement"] | order(date desc){  title,  type,  issuer,  date,  description,  image,  url,  featured,  order}
-export type ACHIEVEMENTS_QUERYResult = Array<{
+// Source: ./app/(portfolio)/blog/[slug]/page.tsx
+// Variable: BLOG_POST_QUERY
+// Query: *[_type == "blog" && slug.current == $slug][0]{  title,  excerpt,  featuredImage,  content,  publishedAt,  readTime,  category,  tags,  _createdAt}
+export type BLOG_POST_QUERYResult = {
   title: string | null;
-  type: "award" | "hackathon" | "milestone" | "open-source" | "other" | "publication" | "recognition" | "speaking" | null;
-  issuer: string | null;
-  date: string | null;
-  description: string | null;
-  image: {
+  excerpt: string | null;
+  featuredImage: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -729,12 +781,137 @@ export type ACHIEVEMENTS_QUERYResult = Array<{
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
   } | null;
-  url: string | null;
-  featured: boolean | null;
-  order: number | null;
-}>;
+  content: Array<{
+    _key: string;
+  } & Code | {
+    _key: string;
+  } & Table | {
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      value?: "#14b8a6" | "#22c55e" | "#3b82f6" | "#6366f1" | "#6b7280" | "#a855f7" | "#eab308" | "#ec4899" | "#ef4444" | "#f97316";
+      _type: "textColor";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  publishedAt: string | null;
+  readTime: number | null;
+  category: "ai-ml" | "best-practices" | "career" | "news" | "opinion" | "showcase" | "technical" | "tutorial" | "web-dev" | null;
+  tags: Array<string> | null;
+  _createdAt: string;
+} | null;
+
+// Source: ./app/(portfolio)/case-study/[slug]/page.tsx
+// Variable: CASE_STUDY_QUERY
+// Query: *[_type == "caseStudy" && slug.current == $slug][0]{  title,  heroImage,  overview,  role,  timeline,  techStack,  demoUrl,  githubUrl,  content,  _createdAt}
+export type CASE_STUDY_QUERYResult = {
+  title: string | null;
+  heroImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  overview: string | null;
+  role: string | null;
+  timeline: string | null;
+  techStack: Array<string> | null;
+  demoUrl: string | null;
+  githubUrl: string | null;
+  content: Array<{
+    _key: string;
+  } & Code | {
+    _key: string;
+  } & Table | {
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      value?: "#14b8a6" | "#22c55e" | "#3b82f6" | "#6366f1" | "#6b7280" | "#a855f7" | "#eab308" | "#ec4899" | "#ef4444" | "#f97316";
+      _type: "textColor";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  _createdAt: string;
+} | null;
+
+// Source: ./components/sections/AboutSection.tsx
+// Variable: ABOUT_QUERY
+// Query: *[_id == "singleton-profile"][0]{  profileImage,  shortBio}
+export type ABOUT_QUERYResult = {
+  profileImage: null;
+  shortBio: null;
+} | {
+  profileImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  shortBio: string | null;
+} | null;
 
 // Source: ./components/sections/BlogSection.tsx
 // Variable: BLOG_QUERY
@@ -760,36 +937,6 @@ export type BLOG_QUERYResult = Array<{
     alt?: string;
     _type: "image";
   } | null;
-}>;
-
-// Source: ./components/sections/CertificationsSection.tsx
-// Variable: CERTIFICATIONS_QUERY
-// Query: *[_type == "certification"] | order(issueDate desc){  name,  issuer,  issueDate,  expiryDate,  credentialId,  credentialUrl,  logo,  description,  skills[]->{name, category},  order}
-export type CERTIFICATIONS_QUERYResult = Array<{
-  name: string | null;
-  issuer: string | null;
-  issueDate: string | null;
-  expiryDate: string | null;
-  credentialId: string | null;
-  credentialUrl: string | null;
-  logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  } | null;
-  description: string | null;
-  skills: Array<{
-    name: string | null;
-    category: "ai-ml" | "backend" | "cloud" | "database" | "design" | "devops" | "frontend" | "mobile" | "other" | "soft-skills" | "testing" | "tools" | null;
-  }> | null;
-  order: number | null;
 }>;
 
 // Source: ./components/sections/ContactSection.tsx
@@ -826,89 +973,20 @@ export type PROFILE_QUERYResult = {
   } | null;
 } | null;
 
-// Source: ./components/sections/EducationSection.tsx
-// Variable: EDUCATION_QUERY
-// Query: *[_type == "education"] | order(endDate desc, startDate desc){  institution,  degree,  fieldOfStudy,  startDate,  endDate,  current,  gpa,  description,  achievements,  logo,  website,  order}
-export type EDUCATION_QUERYResult = Array<{
-  institution: string | null;
-  degree: string | null;
-  fieldOfStudy: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  current: boolean | null;
-  gpa: string | null;
-  description: string | null;
-  achievements: Array<string> | null;
-  logo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  } | null;
-  website: string | null;
-  order: number | null;
-}>;
-
-// Source: ./components/sections/ExperienceSection.tsx
-// Variable: EXPERIENCE_QUERY
-// Query: *[_type == "experience"] | order(startDate desc){  company,  position,  employmentType,  location,  startDate,  endDate,  current,  description,  responsibilities,  achievements,  technologies[]->{name, category},  companyLogo,  companyWebsite}
-export type EXPERIENCE_QUERYResult = Array<{
-  company: string | null;
-  position: string | null;
-  employmentType: "contract" | "freelance" | "full-time" | "internship" | "part-time" | null;
-  location: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  current: boolean | null;
-  description: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
-  responsibilities: Array<string> | null;
-  achievements: Array<string> | null;
-  technologies: Array<{
-    name: string | null;
-    category: "ai-ml" | "backend" | "cloud" | "database" | "design" | "devops" | "frontend" | "mobile" | "other" | "soft-skills" | "testing" | "tools" | null;
-  }> | null;
-  companyLogo: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
-  companyWebsite: string | null;
-}>;
+// Source: ./components/sections/HeroSection.tsx
+// Variable: HERO_QUERY
+// Query: *[_id == "singleton-profile"][0]{  agencyName,  headline}
+export type HERO_QUERYResult = {
+  agencyName: null;
+  headline: null;
+} | {
+  agencyName: string | null;
+  headline: string | null;
+} | null;
 
 // Source: ./components/sections/ProjectsSection.tsx
 // Variable: PROJECTS_QUERY
-// Query: *[_type == "project" && featured == true] | order(order asc)[0...6]{  title,  slug,  tagline,  category,  liveUrl,  githubUrl,  coverImage,  technologies[]->{name, category, color}}
+// Query: *[_type == "project" && featured == true] | order(order asc)[0...6]{  title,  slug,  tagline,  category,  liveUrl,  githubUrl,  coverImage,  technologies[]->{name, category, color},  caseStudy->{slug}}
 export type PROJECTS_QUERYResult = Array<{
   title: string | null;
   slug: Slug | null;
@@ -934,71 +1012,9 @@ export type PROJECTS_QUERYResult = Array<{
     category: "ai-ml" | "backend" | "cloud" | "database" | "design" | "devops" | "frontend" | "mobile" | "other" | "soft-skills" | "testing" | "tools" | null;
     color: string | null;
   }> | null;
-}>;
-
-// Source: ./components/sections/ServicesSection.tsx
-// Variable: SERVICES_QUERY
-// Query: *[_type == "service"] | order(order asc, _createdAt desc){  title,  slug,  icon,  shortDescription,  fullDescription,  features,  technologies[]->{name, category},  deliverables,  pricing,  timeline,  featured,  order}
-export type SERVICES_QUERYResult = Array<{
-  title: string | null;
-  slug: Slug | null;
-  icon: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
+  caseStudy: {
+    slug: Slug | null;
   } | null;
-  shortDescription: string | null;
-  fullDescription: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
-  features: Array<string> | null;
-  technologies: Array<{
-    name: string | null;
-    category: "ai-ml" | "backend" | "cloud" | "database" | "design" | "devops" | "frontend" | "mobile" | "other" | "soft-skills" | "testing" | "tools" | null;
-  }> | null;
-  deliverables: Array<string> | null;
-  pricing: {
-    startingPrice?: number;
-    priceType?: "custom" | "hourly" | "monthly" | "project";
-    description?: string;
-  } | null;
-  timeline: string | null;
-  featured: boolean | null;
-  order: number | null;
-}>;
-
-// Source: ./components/sections/SkillsSection.tsx
-// Variable: SKILLS_QUERY
-// Query: *[_type == "skill"] | order(category asc, order asc){  name,  category,  proficiency,  percentage,  yearsOfExperience,  color}
-export type SKILLS_QUERYResult = Array<{
-  name: string | null;
-  category: "ai-ml" | "backend" | "cloud" | "database" | "design" | "devops" | "frontend" | "mobile" | "other" | "soft-skills" | "testing" | "tools" | null;
-  proficiency: "advanced" | "beginner" | "expert" | "intermediate" | null;
-  percentage: number | null;
-  yearsOfExperience: number | null;
-  color: string | null;
 }>;
 
 // Source: ./components/sections/TestimonialsSection.tsx
@@ -1040,19 +1056,16 @@ export type TESTIMONIALS_QUERYResult = Array<{
 }>;
 
 // Query TypeMap
-// import "@sanity/client";
-// declare module "@sanity/client" {
-//   interface SanityQueries {
-//     "*[_id == \"singleton-profile\"][0]{\n  firstName,\n  lastName,\n  fullBio,\n  yearsOfExperience,\n  stats,\n  email,\n  phone,\n  location\n}": ABOUT_QUERYResult;
-//     "*[_type == \"achievement\"] | order(date desc){\n  title,\n  type,\n  issuer,\n  date,\n  description,\n  image,\n  url,\n  featured,\n  order\n}": ACHIEVEMENTS_QUERYResult;
-//     "*[_type == \"blog\"] | order(publishedAt desc){\n  title,\n  slug,\n  excerpt,\n  category,\n  tags,\n  publishedAt,\n  readTime,\n  featuredImage\n}": BLOG_QUERYResult;
-//     "*[_type == \"certification\"] | order(issueDate desc){\n  name,\n  issuer,\n  issueDate,\n  expiryDate,\n  credentialId,\n  credentialUrl,\n  logo,\n  description,\n  skills[]->{name, category},\n  order\n}": CERTIFICATIONS_QUERYResult;
-//     "*[_id == \"singleton-profile\"][0]{\n  email,\n  phone,\n  location,\n  socialLinks\n}": PROFILE_QUERYResult;
-//     "*[_type == \"education\"] | order(endDate desc, startDate desc){\n  institution,\n  degree,\n  fieldOfStudy,\n  startDate,\n  endDate,\n  current,\n  gpa,\n  description,\n  achievements,\n  logo,\n  website,\n  order\n}": EDUCATION_QUERYResult;
-//     "*[_type == \"experience\"] | order(startDate desc){\n  company,\n  position,\n  employmentType,\n  location,\n  startDate,\n  endDate,\n  current,\n  description,\n  responsibilities,\n  achievements,\n  technologies[]->{name, category},\n  companyLogo,\n  companyWebsite\n}": EXPERIENCE_QUERYResult;
-//     "*[_type == \"project\" && featured == true] | order(order asc)[0...6]{\n  title,\n  slug,\n  tagline,\n  category,\n  liveUrl,\n  githubUrl,\n  coverImage,\n  technologies[]->{name, category, color}\n}": PROJECTS_QUERYResult;
-//     "*[_type == \"service\"] | order(order asc, _createdAt desc){\n  title,\n  slug,\n  icon,\n  shortDescription,\n  fullDescription,\n  features,\n  technologies[]->{name, category},\n  deliverables,\n  pricing,\n  timeline,\n  featured,\n  order\n}": SERVICES_QUERYResult;
-//     "*[_type == \"skill\"] | order(category asc, order asc){\n  name,\n  category,\n  proficiency,\n  percentage,\n  yearsOfExperience,\n  color\n}": SKILLS_QUERYResult;
-//     "*[_type == \"testimonial\" && featured == true] | order(order asc){\n  name,\n  position,\n  company,\n  testimonial,\n  rating,\n  date,\n  avatar,\n  companyLogo,\n  linkedinUrl\n}": TESTIMONIALS_QUERYResult;
-//   }
-// }
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    "*[_type == \"blog\" && slug.current == $slug][0]{\n  title,\n  excerpt,\n  featuredImage,\n  content,\n  publishedAt,\n  readTime,\n  category,\n  tags,\n  _createdAt\n}": BLOG_POST_QUERYResult;
+    "*[_type == \"caseStudy\" && slug.current == $slug][0]{\n  title,\n  heroImage,\n  overview,\n  role,\n  timeline,\n  techStack,\n  demoUrl,\n  githubUrl,\n  content,\n  _createdAt\n}": CASE_STUDY_QUERYResult;
+    "*[_id == \"singleton-profile\"][0]{\n  profileImage,\n  shortBio\n}": ABOUT_QUERYResult;
+    "*[_type == \"blog\"] | order(publishedAt desc){\n  title,\n  slug,\n  excerpt,\n  category,\n  tags,\n  publishedAt,\n  readTime,\n  featuredImage\n}": BLOG_QUERYResult;
+    "*[_id == \"singleton-profile\"][0]{\n  email,\n  phone,\n  location,\n  socialLinks\n}": PROFILE_QUERYResult;
+    "*[_id == \"singleton-profile\"][0]{\n  agencyName,\n  headline\n}": HERO_QUERYResult;
+    "*[_type == \"project\" && featured == true] | order(order asc)[0...6]{\n  title,\n  slug,\n  tagline,\n  category,\n  liveUrl,\n  githubUrl,\n  coverImage,\n  technologies[]->{name, category, color},\n  caseStudy->{slug}\n}": PROJECTS_QUERYResult;
+    "*[_type == \"testimonial\" && featured == true] | order(order asc){\n  name,\n  position,\n  company,\n  testimonial,\n  rating,\n  date,\n  avatar,\n  companyLogo,\n  linkedinUrl\n}": TESTIMONIALS_QUERYResult;
+  }
+}

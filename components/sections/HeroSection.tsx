@@ -1,8 +1,14 @@
-// app/components/HeroSection.tsx
+import { defineQuery } from "next-sanity";
+import { sanityFetch } from "@/sanity/lib/live";
 import { ChevronDown, Eye, Send } from "lucide-react";
 
+const HERO_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
+  agencyName,
+  headline
+}`);
+
 export async function HeroSection() {
-  //   const data = await getHeroData();
+  const { data: profile } = await sanityFetch({ query: HERO_QUERY });
 
   return (
     <section
@@ -26,7 +32,7 @@ export async function HeroSection() {
             </span>{" "}
             <br />
             <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-300 via-purple-300 to-teal-300 animate-gradient">
-              {"ArtiXperts"}
+              {profile?.agencyName || "ArtiXperts"}
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light tracking-wide drop-shadow-md">
