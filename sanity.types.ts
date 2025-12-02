@@ -892,26 +892,44 @@ export type CASE_STUDY_QUERYResult = {
 
 // Source: ./components/sections/AboutSection.tsx
 // Variable: ABOUT_QUERY
-// Query: *[_id == "singleton-profile"][0]{  profileImage,  shortBio}
+// Query: {  "profile": *[_id == "singleton-profile"][0]{    profileImage,    shortBio  },  "services": *[_type == "service" && defined(icon)]|order(order asc)[0...4]{    title,    icon,    shortDescription  }}
 export type ABOUT_QUERYResult = {
-  profileImage: null;
-  shortBio: null;
-} | {
-  profileImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
+  profile: {
+    profileImage: null;
+    shortBio: null;
+  } | {
+    profileImage: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    } | null;
+    shortBio: string | null;
   } | null;
-  shortBio: string | null;
-} | null;
+  services: Array<{
+    title: string | null;
+    icon: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+    shortDescription: string | null;
+  }>;
+};
 
 // Source: ./components/sections/BlogSection.tsx
 // Variable: BLOG_QUERY
@@ -1061,7 +1079,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"blog\" && slug.current == $slug][0]{\n  title,\n  excerpt,\n  featuredImage,\n  content,\n  publishedAt,\n  readTime,\n  category,\n  tags,\n  _createdAt\n}": BLOG_POST_QUERYResult;
     "*[_type == \"caseStudy\" && slug.current == $slug][0]{\n  title,\n  heroImage,\n  overview,\n  role,\n  timeline,\n  techStack,\n  demoUrl,\n  githubUrl,\n  content,\n  _createdAt\n}": CASE_STUDY_QUERYResult;
-    "*[_id == \"singleton-profile\"][0]{\n  profileImage,\n  shortBio\n}": ABOUT_QUERYResult;
+    "{\n  \"profile\": *[_id == \"singleton-profile\"][0]{\n    profileImage,\n    shortBio\n  },\n  \"services\": *[_type == \"service\" && defined(icon)]|order(order asc)[0...4]{\n    title,\n    icon,\n    shortDescription\n  }\n}": ABOUT_QUERYResult;
     "*[_type == \"blog\"] | order(publishedAt desc){\n  title,\n  slug,\n  excerpt,\n  category,\n  tags,\n  publishedAt,\n  readTime,\n  featuredImage\n}": BLOG_QUERYResult;
     "*[_id == \"singleton-profile\"][0]{\n  email,\n  phone,\n  location,\n  socialLinks\n}": PROFILE_QUERYResult;
     "*[_id == \"singleton-profile\"][0]{\n  agencyName,\n  headline\n}": HERO_QUERYResult;

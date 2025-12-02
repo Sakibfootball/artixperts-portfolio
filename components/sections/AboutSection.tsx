@@ -1,23 +1,26 @@
 import Image from "next/image";
 import {
   Award,
-  Code,
-  PenTool,
-  Image as LucideImage,
-  Smartphone,
   ArrowRight,
 } from "lucide-react";
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 
-const ABOUT_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
-  profileImage,
-  shortBio
+const ABOUT_QUERY = defineQuery(`{
+  "profile": *[_id == "singleton-profile"][0]{
+    profileImage,
+    shortBio
+  },
+  "services": *[_type == "service" && defined(icon)]|order(order asc)[0...4]{
+    title,
+    icon
+  }
 }`);
 
 export async function AboutSection() {
-  const { data: profile } = await sanityFetch({ query: ABOUT_QUERY });
+  const { data } = await sanityFetch({ query: ABOUT_QUERY });
+  const { profile, services } = data || {};
 
   return (
     <section id="about" className="py-20 bg-white">
@@ -50,36 +53,28 @@ export async function AboutSection() {
             <h2 className="text-3xl font-bold text-gray-800 mb-6 font-space">
               About Us
             </h2>
-            <p className="text-gray-600 mb-6">
-              {profile?.shortBio ||
-                "We’re a team of creators, strategists, and problem solvers helping businesses look sharper, sound clearer, and grow faster. From stunning visuals to smart marketing, we bring together design, storytelling, and strategy to move your brand forward."}
-            </p>
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-                  <Code className="text-purple-500 w-5 h-5" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {services?.map((service: any) => (
+                <div key={service.title} className="flex flex-col gap-2 p-4 rounded-xl bg-gray-50 hover:bg-purple-50 transition-colors duration-300">
+                  <div className="flex items-center gap-3">
+                    <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 overflow-hidden relative">
+                      {service.icon ? (
+                        <Image
+                          src={urlFor(service.icon).url()}
+                          alt={service.title}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-purple-100" />
+                      )}
+                    </div>
+                    <span className="font-bold text-gray-800">{service.title}</span>
+                  </div>
                 </div>
-                <span className="font-medium text-gray-700">Web Development</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
-                  <PenTool className="text-teal-500 w-5 h-5" />
-                </div>
-                <span className="font-medium text-gray-700">UI/UX Design</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-                  <LucideImage className="text-purple-500 w-5 h-5" />
-                </div>
-                <span className="font-medium text-gray-700">Graphic Design</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
-                  <Smartphone className="text-teal-500 w-5 h-5" />
-                </div>
-                <span className="font-medium text-gray-700">Mobile Apps</span>
-              </div>
+              ))}
             </div>
+
             <a
               href="#contact"
               className="inline-flex items-center text-purple-600 hover:text-purple-800 font-medium transition-all duration-300 hover:translate-x-1"
